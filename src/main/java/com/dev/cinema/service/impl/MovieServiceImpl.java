@@ -1,7 +1,6 @@
 package com.dev.cinema.service.impl;
 
 import com.dev.cinema.dao.MovieDao;
-import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.Movie;
@@ -18,7 +17,7 @@ public class MovieServiceImpl implements MovieService {
         return movieDao.add(movie);
     }
 
-    public List<Movie> getAll() throws DataProcessingException {
+    public List<Movie> getAll() {
         return movieDao.getAll();
     }
 }
