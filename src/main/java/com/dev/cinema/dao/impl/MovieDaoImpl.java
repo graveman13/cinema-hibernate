@@ -27,7 +27,6 @@ public class MovieDaoImpl implements MovieDao {
             movie.setId(itemId);
             return movie;
         } catch (Exception e) {
-            LOGGER.error(e);
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -35,7 +34,7 @@ public class MovieDaoImpl implements MovieDao {
         }
     }
 
-    public List<Movie> getAll() throws DataProcessingException {
+    public List<Movie> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaQuery<Movie> criteriaQuery = session.getCriteriaBuilder()
                     .createQuery(Movie.class);
