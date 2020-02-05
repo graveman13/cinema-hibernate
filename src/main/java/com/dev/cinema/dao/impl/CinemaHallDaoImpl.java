@@ -27,10 +27,10 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             cinemaHall.setId(id);
             transaction.commit();
         } catch (Exception e) {
-            LOGGER.error(e);
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new RuntimeException("Can't insert cinema hall", e);
         }
         return cinemaHall;
     }
@@ -42,8 +42,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             List<CinemaHall> list = query.list();
             return list;
         } catch (Exception e) {
-            LOGGER.error(e);
-            throw new RuntimeException("Can't get all cinema hall");
+            throw new RuntimeException("Can't get all cinema hall",e);
         }
     }
 }

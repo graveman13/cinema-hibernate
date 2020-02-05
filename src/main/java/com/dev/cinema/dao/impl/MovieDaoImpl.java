@@ -27,7 +27,6 @@ public class MovieDaoImpl implements MovieDao {
             movie.setId(itemId);
             return movie;
         } catch (Exception e) {
-            LOGGER.error(e);
             if (transaction != null) {
                 transaction.rollback();
             }

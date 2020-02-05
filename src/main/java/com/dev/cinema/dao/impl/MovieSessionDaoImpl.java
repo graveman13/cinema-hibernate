@@ -1,6 +1,7 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.MovieSessionDao;
+import com.dev.cinema.exception.DataProcessingException;
 import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.util.HibernateUtil;
@@ -44,10 +45,11 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             movieSession.setId(id);
             transaction.commit();
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.info(e);
             if (transaction != null) {
                 transaction.rollback();
             }
+            throw new DataProcessingException("Can't insert Movie entity", e);
         }
         return movieSession;
     }
