@@ -28,8 +28,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setEmail(email);
             user.setPassword(password);
             return userService.add(user);
-        } else {
-            throw new AuthenticationException("This email already exist, please login");
         }
+        throw new AuthenticationException("This email already exist, please login");
     }
 }
