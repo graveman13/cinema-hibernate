@@ -1,13 +1,10 @@
 package com.dev.cinema.util;
 
-import org.apache.log4j.Logger;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashUtil {
-    private static final Logger LOGGER = Logger.getLogger(HashUtil.class);
 
     public static byte[] salt() {
         SecureRandom secureRandom = new SecureRandom();
@@ -26,9 +23,8 @@ public class HashUtil {
                 hashPassword.append(String.format("%02x", b));
             }
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.info(e);
             throw new RuntimeException("Can't hash password", e);
         }
-        return  hashPassword.toString();
+        return hashPassword.toString();
     }
 }
