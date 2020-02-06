@@ -1,22 +1,18 @@
 package com.dev.cinema.model;
 
 import java.time.LocalDateTime;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class MovieSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private Movie movie;
-    @OneToOne
+    @ManyToOne
     private CinemaHall cinemaHall;
-    private LocalDateTime localDateTime;
+    private LocalDateTime showTime;
 
     public Long getId() {
         return id;
@@ -42,12 +38,12 @@ public class MovieSession {
         this.cinemaHall = cinemaHall;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getShowTime() {
+        return showTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setShowTime(LocalDateTime localDateTime) {
+        this.showTime = localDateTime;
     }
 
     @Override
@@ -56,7 +52,7 @@ public class MovieSession {
                 + "id=" + id
                 + ", movie=" + movie
                 + ", cinemaHall=" + cinemaHall
-                + ", localDateTime=" + localDateTime
+                + ", localDateTime=" + showTime
                 + '}';
     }
 }
