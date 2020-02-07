@@ -1,7 +1,11 @@
 package com.dev.cinema.model;
 
-import java.time.LocalDateTime;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "ticket")
@@ -36,5 +40,10 @@ public class Ticket {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Ticket{ id=" + id + ", movieSession=" + movieSession + ", user=" + user + '}';
     }
 }
