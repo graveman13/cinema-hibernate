@@ -1,6 +1,6 @@
 package com.dev.cinema;
 
-import com.dev.cinema.lib.Injector;
+import com.dev.cinema.config.AppConfig;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
@@ -17,21 +17,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Main {
-    private static Injector injector = Injector.getInstance("com.dev.cinema");
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+public class Main {
     public static void main(String[] args) {
+
+        AnnotationConfigApplicationContext contex
+                = new AnnotationConfigApplicationContext(AppConfig.class);
         Movie movie1 = new Movie();
         movie1.setTitle("Fast and Furious");
         Movie movie2 = new Movie();
         movie2.setTitle("Taxi");
-
-        MovieService movieService = (MovieService) injector.getInstance(MovieService.class);
+        MovieService movieService = contex.getBean(MovieService.class);
         movie1 = movieService.add(movie1);
         movie2 = movieService.add(movie2);
-
-        CinemaHallService cinemaHallService =
-                (CinemaHallService) injector.getInstance(CinemaHallService.class);
+        CinemaHallService cinemaHallService = contex.getBean(CinemaHallService.class);
         CinemaHall cinemaHall = new CinemaHall();
         cinemaHall.setCapacity(150);
         cinemaHall = cinemaHallService.add(cinemaHall);
@@ -45,9 +45,7 @@ public class Main {
         movieSession2.setCinemaHall(cinemaHall);
         movieSession2.setMovie(movie2);
         movieSession2.setShowTime(LocalDateTime.of(LocalDate.now(), LocalTime.of(4, 10)));
-
-        MovieSessionService movieSessionService =
-                (MovieSessionService) injector.getInstance(MovieSessionService.class);
+        MovieSessionService movieSessionService = contex.getBean(MovieSessionService.class);
         movieSessionService.add(movieSession1);
         movieSessionService.findAvailableSessions(movie1.getId(), LocalDate.now())
                 .forEach(System.out::println);
@@ -56,20 +54,16 @@ public class Main {
                 .forEach(System.out::println);
 
         movieService.getAll().forEach(System.out::println);
-
-        AuthenticationService authenticationService = (AuthenticationService)
-                injector.getInstance(AuthenticationService.class);
+        AuthenticationService authenticationService = contex.getBean(AuthenticationService.class);
         authenticationService.register("login", "1");
         User user = authenticationService.login("login", "1");
         System.out.println(user);
-
-        ShoppingCartService shoppingCartService = (ShoppingCartService)
-                injector.getInstance(ShoppingCartService.class);
+        ShoppingCartService shoppingCartService = contex.getBean(ShoppingCartService.class);
         shoppingCartService.addSession(movieSession1, user);
         System.out.println(shoppingCartService.getByUser(user));
 
-        OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+        OrderService orderService = contex.getBean(OrderService.class);
         orderService.completeOrder(shoppingCart.getTickets(), user);
         orderService.getOrderHistory(user).forEach(System.out::println);
     }
