@@ -31,19 +31,22 @@ public class ShoppingCartController {
     private ShoppingCartService shoppingCartService;
 
     @PostMapping("/addmoviesession")
-    public void add(@RequestBody ShoppingCartRequestDto shoppingCartRequestDto) {
-        shoppingCartService.addSession(
-                movieSessionService.getById(shoppingCartRequestDto.getMovieSessionId()),
-                userService.getById(shoppingCartRequestDto.getUrerId()));
+    public ShoppingCartResponseDto add(@RequestBody ShoppingCartRequestDto shoppingCartRequestDto) {
+        return convertScToCResponseDto(
+                shoppingCartService.addSession(
+                        movieSessionService.getById(shoppingCartRequestDto.getMovieSessionId()),
+                        userService.getById(shoppingCartRequestDto.getUrerId())));
     }
 
     @GetMapping("/byuser")
     public ShoppingCartResponseDto get(Long userId) {
-        User user = userService.getById(userId);
-        return convertScToCResponseDto(shoppingCartService.getByUser(user), user);
+        return convertScToCResponseDto(
+                shoppingCartService.getByUser(
+                        userService.getById(userId)));
     }
 
-    private ShoppingCartResponseDto convertScToCResponseDto(ShoppingCart shoppingCart, User user) {
+    private ShoppingCartResponseDto convertScToCResponseDto(ShoppingCart shoppingCart) {
+        User user = shoppingCart.getUser();
         ShoppingCartResponseDto shoppingCartResponseDto = new ShoppingCartResponseDto();
         shoppingCartResponseDto.setEmail(user.getEmail());
         shoppingCartResponseDto.setFirstName(user.getFirstName());

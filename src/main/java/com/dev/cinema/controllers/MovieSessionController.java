@@ -29,12 +29,9 @@ public class MovieSessionController {
     private MovieSessionService movieSessionService;
 
     @PostMapping
-    public void add(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
-        MovieSession movieSession = new MovieSession();
-        movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()));
-        movieSession.setCinemaHall(
-                cinemaHallService.getById(movieSessionRequestDto.getCinemaHallId()));
-        movieSessionService.add(movieSession);
+    public MovieSessionResponseDto add(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
+        return convertToMSessionDtoResponse(
+                movieSessionService.add(convertToMsDtoRequest(movieSessionRequestDto)));
     }
 
     @GetMapping("/available")
@@ -51,5 +48,13 @@ public class MovieSessionController {
         movieSessionResponseDto.setMovieTitle(movieSession.getMovie().getTitle());
         movieSessionResponseDto.setShowTime(movieSession.getShowTime());
         return movieSessionResponseDto;
+    }
+
+    private MovieSession convertToMsDtoRequest(MovieSessionRequestDto movieSessionRequestDto) {
+        MovieSession movieSession = new MovieSession();
+        movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()));
+        movieSession.setCinemaHall(
+                cinemaHallService.getById(movieSessionRequestDto.getCinemaHallId()));
+        return movieSession;
     }
 }

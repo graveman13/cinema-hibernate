@@ -8,7 +8,7 @@ public interface ShoppingCartService {
 
     ShoppingCart getById(Long id);
 
-    void addSession(MovieSession movieSession, User user);
+    ShoppingCart addSession(MovieSession movieSession, User user);
 
     ShoppingCart getByUser(User user);
 

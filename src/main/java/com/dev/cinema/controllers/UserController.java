@@ -24,8 +24,9 @@ public class UserController {
     }
 
     @PostMapping
-    public void add(@RequestBody UserRequestDto userRequestDto) {
-        userService.add(convertUserRequestDtoToUser(userRequestDto));
+    public UserResponseDto add(@RequestBody UserRequestDto userRequestDto) {
+        return convertUserToUserRsponceDto(
+                userService.add(convertUserRequestDtoToUser(userRequestDto)));
     }
 
     private UserResponseDto convertUserToUserRsponceDto(User user) {

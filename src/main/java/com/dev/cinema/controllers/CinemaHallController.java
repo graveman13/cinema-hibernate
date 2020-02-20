@@ -28,9 +28,10 @@ public class CinemaHallController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/")
-    public void add(@RequestBody CinemaHallRequestDto cinemaHallRequestDto) {
-        cinemaHallService.add(convertCHallRequestToCHall(cinemaHallRequestDto));
+    @PostMapping
+    public CinemaHallResponseDto add(@RequestBody CinemaHallRequestDto cinemaHallRequestDto) {
+        return convertCinemaHallToCinemaHallDtoResponse(
+                cinemaHallService.add(convertCHallRequestToCHall(cinemaHallRequestDto)));
     }
 
     private CinemaHallResponseDto convertCinemaHallToCinemaHallDtoResponse(CinemaHall cinemaHall) {

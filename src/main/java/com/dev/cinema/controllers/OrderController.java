@@ -34,10 +34,10 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/complete")
-    public void complite(@RequestBody OrderRequestDto orderRequestDto) {
-        orderService.completeOrder(
+    public OrderResponseDto complite(@RequestBody OrderRequestDto orderRequestDto) {
+        return convertOrderToOrderDtoResponse(orderService.completeOrder(
                 shoppingCartService.getById(orderRequestDto.getShoppingCartId()).getTickets(),
-                userService.getById(orderRequestDto.getUserId()));
+                userService.getById(orderRequestDto.getUserId())));
     }
 
     @GetMapping("/{userId}")
