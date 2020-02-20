@@ -5,5 +5,5 @@ import com.dev.cinema.model.User;
 public interface AuthenticationService {
     User login(String email, String password);
 
-    User register(String email, String password);
+    User register(String email, String password,String firstName,String lastName);
 }

@@ -3,6 +3,7 @@ package com.dev.cinema.dao.impl;
 import com.dev.cinema.dao.UserDao;
 import com.dev.cinema.model.User;
 
+import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -11,6 +12,7 @@ import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -47,6 +49,26 @@ public class UserDaoImpl implements UserDao {
             return sessions.createQuery(criteria).uniqueResult();
         } catch (Exception e) {
             throw new RuntimeException("Can't find email", e);
+        }
+    }
+
+    @Override
+    public User getById(Long id) {
+        try {
+            return sessionFactory.openSession().get(User.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get User", e);
+        }
+    }
+
+    @Override
+    public List<User> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery(
+                    "from User ", User.class);
+            return query.list();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get all users", e);
         }
     }
 }

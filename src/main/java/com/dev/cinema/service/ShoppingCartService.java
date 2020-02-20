@@ -5,6 +5,9 @@ import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 
 public interface ShoppingCartService {
+
+    ShoppingCart getById(Long id);
+
     void addSession(MovieSession movieSession, User user);
 
     ShoppingCart getByUser(User user);
