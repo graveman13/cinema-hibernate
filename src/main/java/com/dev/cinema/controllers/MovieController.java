@@ -21,18 +21,15 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @PostMapping("/")
+    @PostMapping
     public void add(@RequestBody MovieRequestDto movieRequestDto) {
-        Movie movie = new Movie();
-        movie.setTitle(movieRequestDto.getTitle());
-        movie.setDescription(movieRequestDto.getDescription());
-        movieService.add(movie);
+        movieService.add(convertMovieRequestDtoToMovie(movieRequestDto));
     }
 
-    @GetMapping("/films")
+    @GetMapping
     public List<MovieResponseDto> getAll() {
-        return movieService.getAll().stream().map(movie ->
-                convertMovieToMovieDtoResponse(movie)).collect(Collectors.toList());
+        return movieService.getAll().stream()
+                .map(this::convertMovieToMovieDtoResponse).collect(Collectors.toList());
     }
 
     private MovieResponseDto convertMovieToMovieDtoResponse(Movie movie) {
@@ -40,5 +37,12 @@ public class MovieController {
         movieResponseDto.setTitle(movie.getTitle());
         movieResponseDto.setDescription(movie.getDescription());
         return movieResponseDto;
+    }
+
+    private Movie convertMovieRequestDtoToMovie(MovieRequestDto movieRequestDto) {
+        Movie movie = new Movie();
+        movie.setTitle(movieRequestDto.getTitle());
+        movie.setDescription(movieRequestDto.getDescription());
+        return movie;
     }
 }

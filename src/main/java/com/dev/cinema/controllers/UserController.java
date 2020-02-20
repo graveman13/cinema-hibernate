@@ -20,7 +20,15 @@ public class UserController {
 
     @GetMapping("/byemail")
     public UserResponseDto getByEmail(String email) {
-        User user = userService.findByEmail(email);
+        return convertUserToUserRsponceDto(userService.findByEmail(email));
+    }
+
+    @PostMapping
+    public void add(@RequestBody UserRequestDto userRequestDto) {
+        userService.add(convertUserRequestDtoToUser(userRequestDto));
+    }
+
+    private UserResponseDto convertUserToUserRsponceDto(User user) {
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setFirstName(user.getFirstName());
         userResponseDto.setLastName(user.getLastName());
@@ -28,13 +36,12 @@ public class UserController {
         return userResponseDto;
     }
 
-    @PostMapping("/")
-    public void add(@RequestBody UserRequestDto userRequestDto) {
+    private User convertUserRequestDtoToUser(UserRequestDto userRequestDto) {
         User user = new User();
         user.setFirstName(userRequestDto.getFirstName());
         user.setLastName(userRequestDto.getLastName());
         user.setEmail(userRequestDto.getEmail());
         user.setPassword(userRequestDto.getPassword());
-        userService.add(user);
+        return user;
     }
 }

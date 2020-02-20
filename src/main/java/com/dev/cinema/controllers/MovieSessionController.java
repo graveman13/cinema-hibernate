@@ -28,7 +28,7 @@ public class MovieSessionController {
     @Autowired
     private MovieSessionService movieSessionService;
 
-    @PostMapping("/")
+    @PostMapping
     public void add(@RequestBody MovieSessionRequestDto movieSessionRequestDto) {
         MovieSession movieSession = new MovieSession();
         movieSession.setMovie(movieService.getById(movieSessionRequestDto.getMovieId()));
@@ -41,7 +41,7 @@ public class MovieSessionController {
     public List<MovieSessionResponseDto> get(Long movieId, LocalDate localDate) {
         return movieSessionService.findAvailableSessions(
                 movieId, localDate).stream()
-                .map(movieSession -> convertToMSessionDtoResponse(movieSession))
+                .map(this::convertToMSessionDtoResponse)
                 .collect(Collectors.toList());
     }
 

@@ -40,20 +40,22 @@ public class ShoppingCartController {
     @GetMapping("/byuser")
     public ShoppingCartResponseDto get(Long userId) {
         User user = userService.getById(userId);
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+        return convertScToCResponseDto(shoppingCartService.getByUser(user), user);
+    }
 
+    private ShoppingCartResponseDto convertScToCResponseDto(ShoppingCart shoppingCart, User user) {
         ShoppingCartResponseDto shoppingCartResponseDto = new ShoppingCartResponseDto();
         shoppingCartResponseDto.setEmail(user.getEmail());
         shoppingCartResponseDto.setFirstName(user.getFirstName());
         shoppingCartResponseDto.setLastName(user.getLastName());
-        shoppingCartResponseDto.setMovieSessions(shoppingCart.getTickets().stream().map(ticket ->
-                convertTicketToMovieSessionResponseDto(ticket)).collect(Collectors.toList()));
+        shoppingCartResponseDto.setMovieSessions(shoppingCart.getTickets()
+                .stream().map(this::convertTicketToMovieSessionResponseDto)
+                .collect(Collectors.toList()));
         return shoppingCartResponseDto;
     }
 
     private MovieSessionResponseDto convertTicketToMovieSessionResponseDto(Ticket ticket) {
         MovieSession movieSession = movieSessionService.getById(ticket.getMovieSession().getId());
-
         MovieSessionResponseDto movieSessionResponseDto = new MovieSessionResponseDto();
         movieSessionResponseDto.setCinemaHallId(movieSession.getCinemaHall().getId());
         movieSessionResponseDto.setMovieTitle(movieSession.getMovie().getTitle());
