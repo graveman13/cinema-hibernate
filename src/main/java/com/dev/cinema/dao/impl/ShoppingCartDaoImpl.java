@@ -20,6 +20,15 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     private SessionFactory sessionFactory;
 
     @Override
+    public ShoppingCart getById(Long id) {
+        try {
+            return sessionFactory.openSession().get(ShoppingCart.class, id);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get MovieSession", e);
+        }
+    }
+
+    @Override
     public ShoppingCart add(ShoppingCart shoppingCart) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -47,6 +56,25 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             List<Ticket> tickets = session.createQuery("select t from ShoppingCart as sc "
                     + "join sc.tickets as t where sc.user.id =:userId", Ticket.class)
                     .setParameter("userId", user.getId()).list();
+
+            sc.setTickets(tickets);
+            return sc;
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get shoppinging cart ", e);
+        }
+    }
+
+    @Override
+    public ShoppingCart getByUserId(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            Query queryGetShoppingCart = session.createQuery(
+                    "from ShoppingCart  where user.id =:id ");
+            queryGetShoppingCart.setParameter("id", id);
+            ShoppingCart sc = (ShoppingCart) queryGetShoppingCart.uniqueResult();
+
+            List<Ticket> tickets = session.createQuery("select t from ShoppingCart as sc "
+                    + "join sc.tickets as t where sc.user.id =:id", Ticket.class)
+                    .setParameter("id", id).list();
 
             sc.setTickets(tickets);
             return sc;
