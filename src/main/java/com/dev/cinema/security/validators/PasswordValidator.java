@@ -6,11 +6,12 @@ import com.dev.cinema.dto.UserRegistrationDto;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class PasswordValidator implements ConstraintValidator<PasswordConstraint, UserRegistrationDto> {
+public class PasswordValidator
+        implements ConstraintValidator<PasswordConstraint, UserRegistrationDto> {
 
     @Override
-    public boolean isValid(UserRegistrationDto userRegistrationDto, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(UserRegistrationDto userRegister, ConstraintValidatorContext valid) {
 
-        return userRegistrationDto.getPassword().equals(userRegistrationDto.getRepeatPassword());
+        return userRegister.getPassword().equals(userRegister.getRepeatPassword());
     }
 }

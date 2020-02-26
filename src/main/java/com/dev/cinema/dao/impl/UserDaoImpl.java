@@ -1,7 +1,6 @@
 package com.dev.cinema.dao.impl;
 
 import com.dev.cinema.dao.UserDao;
-import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
 
 import java.util.List;

@@ -4,6 +4,4 @@ import com.dev.cinema.model.Role;
 
 public interface RoleService {
     Role add(Role role);
-
-    Role getRoleByUserName(String userName);
 }
