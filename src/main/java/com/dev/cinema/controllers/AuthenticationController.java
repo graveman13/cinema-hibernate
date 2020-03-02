@@ -5,6 +5,7 @@ import com.dev.cinema.dto.UserRegistrationDto;
 import com.dev.cinema.dto.UserResponseDto;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.AuthenticationService;
+import com.dev.cinema.service.RoleService;
 
 import javax.validation.Valid;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
+    @Autowired
+    private RoleService roleService;
 
     @PostMapping("/login")
     public UserResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {

@@ -30,4 +30,14 @@ public class RoleDaoImpl implements RoleDao {
             throw new RuntimeException("Can't add role of user", e);
         }
     }
+
+    @Override
+    public Role getRoleName(String roleName) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from Role where roleName = :roleName",
+                    Role.class).setParameter("roleName", roleName).uniqueResult();
+        } catch (Exception e) {
+            throw new RuntimeException("Can't find role", e);
+        }
+    }
 }
