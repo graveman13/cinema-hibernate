@@ -1,9 +1,26 @@
 package com.dev.cinema.dto;
 
-public class UserRequestDto {
+import com.dev.cinema.anotations.EmailConstraint;
+import com.dev.cinema.anotations.PasswordConstraint;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@PasswordConstraint
+public class UserRegistrationDto {
+    @NotNull
+    @EmailConstraint
     private String email;
+    @NotNull
+    @Size(min = 4)
     private String password;
+    @NotNull
+    private String repeatPassword;
+    @NotNull
+    @Size(min = 2)
     private String firstName;
+    @NotNull
+    @Size(min = 2)
     private String lastName;
 
     public String getEmail() {
@@ -20,6 +37,14 @@ public class UserRequestDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 
     public String getFirstName() {

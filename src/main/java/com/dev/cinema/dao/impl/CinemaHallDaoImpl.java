@@ -49,7 +49,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     @Override
     public List<CinemaHall> getAll() {
         try (Session session = sessionFactory.openSession()) {
-            Query query = session.createQuery("FROM CinemaHall ");
+            Query query = session.createQuery("from CinemaHall ");
             List<CinemaHall> list = query.list();
             return list;
         } catch (Exception e) {
